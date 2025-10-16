@@ -1,0 +1,110 @@
+[
+  {
+    "name": "File Test",
+    "email": "file@test.com",
+    "mobile": "11223344",
+    "className": "11A",
+    "id": "1760590065269",
+    "createdAt": "2025-10-16T04:47:45.269Z",
+    "updatedAt": "2025-10-16T04:47:45.269Z"
+  },
+  {
+    "name": "XUJI",
+    "email": "k2naysaa@gmail.com",
+    "mobile": "88014891",
+    "className": "14-1",
+    "id": "1760590133132",
+    "createdAt": "2025-10-16T04:48:53.132Z",
+    "updatedAt": "2025-10-16T04:48:53.132Z"
+  },
+  {
+    "name": "XUJI",
+    "email": "admin@newera.mn",
+    "mobile": "88014891",
+    "className": "12-1",
+    "id": "1760590149004",
+    "createdAt": "2025-10-16T04:49:09.004Z",
+    "updatedAt": "2025-10-16T04:49:09.004Z"
+  },
+  {
+    "name": "Test User 2",
+    "email": "test2@example.com",
+    "mobile": "99887766",
+    "className": "9B",
+    "id": "1760590223473",
+    "createdAt": "2025-10-16T04:50:23.473Z",
+    "updatedAt": "2025-10-16T04:50:23.473Z"
+  },
+  {
+    "name": "Hybrid Test",
+    "email": "hybrid@test.com",
+    "mobile": "11223344",
+    "className": "11A",
+    "id": "1760590397690",
+    "createdAt": "2025-10-16T04:53:17.690Z",
+    "updatedAt": "2025-10-16T04:53:17.690Z"
+  },
+  {
+    "name": "MongoDB Test 2",
+    "email": "mongodb2@test.com",
+    "mobile": "99887766",
+    "className": "12B",
+    "id": "1760590412130",
+    "createdAt": "2025-10-16T04:53:32.130Z",
+    "updatedAt": "2025-10-16T04:53:32.130Z"
+  },
+  {
+    "name": "Final Test",
+    "email": "final@test.com",
+    "mobile": "11223344",
+    "className": "12A",
+    "id": "1760590570943",
+    "createdAt": "2025-10-16T04:56:10.943Z",
+    "updatedAt": "2025-10-16T04:56:10.943Z"
+  },
+  {
+    "name": "XUJI",
+    "email": "test@gmail.com",
+    "mobile": "88014891",
+    "className": "uuree0920",
+    "id": "1760590676558",
+    "createdAt": "2025-10-16T04:57:56.558Z",
+    "updatedAt": "2025-10-16T04:57:56.558Z"
+  },
+  {
+    "name": "MongoDB Retry Test",
+    "email": "mongodb-retry@test.com",
+    "mobile": "99887766",
+    "className": "11A",
+    "id": "1760590756969",
+    "createdAt": "2025-10-16T04:59:16.969Z",
+    "updatedAt": "2025-10-16T04:59:16.969Z"
+  },
+  {
+    "name": "SSL Test",
+    "email": "ssl@test.com",
+    "mobile": "12345678",
+    "className": "10B",
+    "id": "1760590784987",
+    "createdAt": "2025-10-16T04:59:44.987Z",
+    "updatedAt": "2025-10-16T04:59:44.987Z"
+  },
+  {
+    "name": "Minimal SSL Test",
+    "email": "minimal@test.com",
+    "mobile": "87654321",
+    "className": "9A",
+    "id": "1760590806973",
+    "createdAt": "2025-10-16T05:00:06.973Z",
+    "updatedAt": "2025-10-16T05:00:06.973Z"
+  },
+  {
+    "name": "MongoDB Success Test",
+    "email": "mongodb-success@test.com",
+    "mobile": "11223344",
+    "className": "12A",
+    "id": "1760590853365",
+    "createdAt": "2025-10-16T05:00:53.365Z",
+    "updatedAt": "2025-10-16T05:00:53.365Z"
+  }
+]

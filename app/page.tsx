@@ -16,8 +16,8 @@ export default function HomePage() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    password: "",
-    confirmPassword: ""
+    mobile: "",
+    className: ""
   })
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,11 +29,11 @@ export default function HomePage() {
     e.preventDefault()
     setIsSubmitting(true)
 
-    // Validate passwords match
-    if (formData.password !== formData.confirmPassword) {
+    // Basic validation
+    if (!formData.name || !formData.email || !formData.mobile || !formData.className) {
       toast({
         title: "Алдаа гарлаа",
-        description: "Нууц үг тохирохгүй байна.",
+        description: "Бүх талбарыг бөглөнө үү.",
         variant: "destructive",
       })
       setIsSubmitting(false)
@@ -49,7 +49,8 @@ export default function HomePage() {
         body: JSON.stringify({
           name: formData.name,
           email: formData.email,
-          password: formData.password
+          mobile: formData.mobile,
+          className: formData.className
         }),
       })
 
@@ -68,8 +69,8 @@ export default function HomePage() {
       setFormData({
         name: "",
         email: "",
-        password: "",
-        confirmPassword: ""
+        mobile: "",
+        className: ""
       })
     } catch (error) {
       toast({
@@ -86,8 +87,9 @@ export default function HomePage() {
       <div className="w-full max-w-sm bg-white rounded-lg shadow-lg overflow-hidden">
         {/* Purple Header */}
         <div className="bg-gradient-to-r from-purple-600 to-purple-700 text-white py-3 px-4 text-center">
-          <h1 className="text-lg font-bold uppercase drop-shadow-sm">ОЛИМПИАДЫН БҮРТГЭЛИЙН СИСТЕМ</h1>
+          <h1 className="text-lg fRont-bold uppercase drop-shadow-sm">ОЛИМПИАДЫН БҮРТГЭЛИЙН СИСТЕМ</h1>
           </div>
+          <img src="/logo.jpg" alt="Logo" className="w-full h-auto max-w-xs mx-auto" />
 
         {/* Light Blue Information Section */}
         <div className="bg-blue-50 p-4">
@@ -116,66 +118,7 @@ export default function HomePage() {
           </div>
 
           {/* Instructions Link */}
-          <div className="text-center">
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button variant="link" className="text-blue-600 text-xs p-0">
-                  ЗААВАР ХАРАХ
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="max-w-2xl">
-                <DialogHeader>
-                  <DialogTitle>ЗААВАР ХАРАХ</DialogTitle>
-                </DialogHeader>
-                <div className="space-y-6 py-4">
-                  <div className="flex items-start space-x-4">
-                    <div className="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-sm">
-                      1
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="font-semibold text-gray-900 mb-2">Төлбөр төлөх</h3>
-                      <div className="bg-gray-50 rounded-lg p-4">
-                        <p className="text-gray-700 mb-2">Оролцох хураамж: <span className="font-bold text-green-600">10,000₮</span></p>
-                        <p className="text-gray-700 mb-2">Данс: ХААН банк: <span className="font-mono bg-gray-200 px-2 py-1 rounded text-sm">5700247991</span></p>
-                        <p className="text-gray-700 mb-2">IBAN: <span className="font-mono bg-gray-200 px-2 py-1 rounded text-sm">10000500</span></p>
-                        <p className="text-xs text-gray-600">Хураамжаа төлөхдөө <span className="font-semibold">Гүйлгээний утга</span> дээр <span className="font-semibold text-blue-600">Утасны дугаар</span>аа бичнэ үү.</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start space-x-4">
-                    <div className="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-sm">
-                      2
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="font-semibold text-gray-900 mb-2">Хүсэлт явуулах</h3>
-                      <p className="text-gray-700 text-sm mb-4">Хүсэлтийг 1 удаа явуулах боломжтой бөгөөд Төлбөр төлөхдөө гүйлгээ хийсэн банкны нэр, гүйлгээний утга дээр бичсэн утасны дугаарыг бичиж, хүсэлтээ бүртгүүлнэ.</p>
-                      
-                      <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mb-3">
-                        <p className="text-xs text-yellow-800 font-semibold">Төлөв: БАТАЛГААЖААГҮЙ БАЙНА!</p>
-                        <p className="text-xs text-yellow-700">Олимпиад болох огнооноос хамаарч 1,5-8 цагийн хугацаатай хуулга авдаг.</p>
-                      </div>
-
-                      <div className="bg-green-50 border border-green-200 rounded-lg p-3">
-                        <p className="text-xs text-green-800 font-semibold">Төлөв: БАТАЛГААЖСАН БАЙНА</p>
-                        <p className="text-xs text-green-700">5-10 минутын өмнө ОНЛАЙН ШҮҮЛТИЙН СИСТЕМ рүү нэвтрэх ID, нууц үг нээгдэнэ.</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start space-x-4">
-                    <div className="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-sm">
-                      3
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="font-semibold text-gray-900 mb-2">Онлайн олимпиадад оролцох, бодлого бодох</h3>
-                      <p className="text-gray-700 text-sm mb-4">Contest Management System нэвтэрч бодлогоо бодно.</p>
-                    </div>
-                  </div>
-                </div>
-              </DialogContent>
-            </Dialog>
-          </div>
+          
         </div>
 
         {/* White Form Section */}
@@ -240,15 +183,15 @@ export default function HomePage() {
 
               {/* Password Field */}
               <div className="space-y-1">
-                <Label htmlFor="password" className="text-xs text-gray-700">Нууц үг</Label>
+                <Label htmlFor="password" className="text-xs text-gray-700">Утасны дугаар</Label>
                 <div className="relative">
                   <Input
-                    id="password"
-                    name="password"
-                    type="password"
-                    value={formData.password}
+                    id="mobile"
+                    name="mobile"
+                    type="text"
+                    value={formData.mobile}
                     onChange={handleChange}
-                    placeholder="Нууц үгээ оруулна уу"
+                    placeholder="Утасны дугаар оруулна уу"
                     className="pr-8 h-8 text-sm"
                     required
                   />
@@ -258,15 +201,15 @@ export default function HomePage() {
 
               {/* Confirm Password Field */}
               <div className="space-y-1">
-                <Label htmlFor="confirmPassword" className="text-xs text-gray-700">Нууц үг баталгаажуулах</Label>
+                <Label htmlFor="confirmPassword" className="text-xs text-gray-700">Анги</Label>
                 <div className="relative">
-                  <Input
-                    id="confirmPassword"
-                    name="confirmPassword"
-                    type="password"
-                    value={formData.confirmPassword}
-                    onChange={handleChange}
-                    placeholder="Нууц үгээ дахин оруулна уу"
+                    <Input
+                      id="className"
+                      name="className"
+                      type="text"
+                      value={formData.className}
+                      onChange={handleChange}
+                      placeholder="Анги "
                     className="pr-8 h-8 text-sm"
                     required
                   />
@@ -307,69 +250,17 @@ export default function HomePage() {
           
           <div className="space-y-4">
             {/* Step 1 */}
-            <div className="flex items-start space-x-3">
-              <div className="flex flex-col items-center">
-                <div className="w-6 h-6 bg-gradient-to-br from-green-200 to-green-300 rounded-full flex items-center justify-center shadow-sm">
-                  <div className="w-2 h-2 bg-green-700 rounded-full"></div>
-                </div>
-                <div className="w-px h-8 bg-gradient-to-b from-gray-400 to-gray-300 mt-2"></div>
-              </div>
-              <div className="flex-1">
-                <h3 className="text-xs font-bold text-gray-900 mb-1">АЛХАМ 1. Төлбөр төлөх</h3>
-                <div className="text-xs text-gray-700 space-y-1">
-                  <p>Оролцох хураамж: <span className="font-bold text-green-600">10,000₮</span></p>
-                  <p>Данс: ХААН банк: <span className="font-mono bg-gray-200 px-1 py-0.5 rounded text-xs">5700247991</span></p>
-                  <p className="text-red-600">(Эзэмшигч Ц.Баттогтох, хорооны нарийн бичиг)</p>
-                  <p>IBAN: <span className="font-mono bg-gray-200 px-1 py-0.5 rounded text-xs">10000500</span></p>
-                  <p>Хураамжаа төлөхдөө <span className="font-bold">Гүйлгээний утга</span> дээр <span className="font-bold">Утасны дугаараа</span> бичнэ үү.</p>
-                </div>
-              </div>
-            </div>
+            
 
             {/* Step 2 */}
-            <div className="flex items-start space-x-3">
-              <div className="flex flex-col items-center">
-                <div className="w-6 h-6 bg-gradient-to-br from-green-200 to-green-300 rounded-full flex items-center justify-center shadow-sm">
-                  <span className="text-green-700 font-bold text-xs">A</span>
-                </div>
-                <div className="w-px h-8 bg-gradient-to-b from-gray-400 to-gray-300 mt-2"></div>
-          </div>
-              <div className="flex-1">
-                <h3 className="text-xs font-bold text-gray-900 mb-1">АЛХАМ 2. Хүсэлт явуулах</h3>
-                <p className="text-xs text-gray-700">Хүсэлтийг 1 удаа явуулах боломжтой бөгөөд Төлбөр төлөхдөө гүйлгээ хийсэн банкны нэр, гүйлгээний утга дээр бичсэн утасны дугаарыг бичиж, хүсэлтээ бүртгүүлнэ.</p>
-              </div>
-            </div>
+            
+             
 
             {/* Status: Not Confirmed */}
-            <div className="flex items-start space-x-3">
-              <div className="flex flex-col items-center">
-                <div className="w-6 h-6 bg-gradient-to-br from-yellow-200 to-yellow-300 rounded-full flex items-center justify-center shadow-sm">
-                  <div className="w-2 h-2 bg-yellow-700 rounded-full"></div>
-                </div>
-                <div className="w-px h-8 bg-gradient-to-b from-gray-400 to-gray-300 mt-2"></div>
-              </div>
-              <div className="flex-1">
-                <h3 className="text-xs font-bold text-gray-900 mb-1">Төлөв: БАТАЛГААЖААГҮЙ БАЙНА!</h3>
-                <div className="text-xs text-gray-700 space-y-1">
-                  <p>🕐 Олимпиад болох огнооноос хамаарч 1,5-8 цагийн хугацаатай хуулга авдаг.</p>
-                  <p>Оролцох хүсэлт явуулахад "БАТАЛГААЖААГҮЙ БАЙНА!" гэсэн төлөвт шилжинэ. Комисс нь банкны хуулга, вебийн хүсэлт хоёрыг харьцуулж <span className="font-bold">БАТАЛГААЖУУЛДАГ</span> учир энэ үйл ажиллагаа тодорхой хугацааны давтамжтайгаар хянаж, баталгаажуулдаг болно.</p>
-          </div>
-        </div>
-      </div>
+            
 
             {/* Status: Confirmed */}
-            <div className="flex items-start space-x-3">
-              <div className="flex flex-col items-center">
-                <div className="w-6 h-6 bg-gradient-to-br from-blue-200 to-blue-300 rounded-full flex items-center justify-center shadow-sm">
-                  <div className="w-2 h-2 bg-blue-700 rounded-full"></div>
-                </div>
-                <div className="w-px h-8 bg-gradient-to-b from-gray-400 to-gray-300 mt-2"></div>
-              </div>
-              <div className="flex-1">
-                <h3 className="text-xs font-bold text-gray-900 mb-1">Төлөв: БАТАЛГААЖСАН БАЙНА</h3>
-                <p className="text-xs text-gray-700">5-10 минутын өмнө <span className="font-bold">ОНЛАЙН ШҮҮЛТИЙН СИСТЕМ</span> рүү нэвтрэх ID, нууц үг нээгдэнэ.</p>
-              </div>
-            </div>
+            
 
             {/* Step 3 */}
             <div className="flex items-start space-x-3">
@@ -379,7 +270,7 @@ export default function HomePage() {
                 </div>
               </div>
               <div className="flex-1">
-                <h3 className="text-xs font-bold text-gray-900 mb-1">АЛХАМ 3. Онлайн олимпиадад оролцох, бодлого бодох</h3>
+                <h3 className="text-xs font-bold text-gray-900 mb-1">АЛХАМ 1. Онлайн олимпиадад оролцох, бодлого бодох</h3>
                 <p className="text-xs text-gray-700 mb-2">Contest Management System нэвтэрч бодлогоо бодно.</p>
                 
                 <div className="grid grid-cols-2 gap-1">

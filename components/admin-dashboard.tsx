@@ -15,7 +15,7 @@ import type { Registration } from "@/lib/models/registration"
 export function AdminDashboard() {
   const { toast } = useToast()
   const [registrations, setRegistrations] = useState<Registration[]>([])
-  const [stats, setStats] = useState({ total: 0, pending: 0, approved: 0, rejected: 0 })
+  const [stats, setStats] = useState({ total: 0, pending: 0, approved: 0, rejected: 0, today: 0, thisWeek: 0, thisMonth: 0 })
   const [loading, setLoading] = useState(true)
   const [searchQuery, setSearchQuery] = useState("")
   const [statusFilter, setStatusFilter] = useState<string>("all")
@@ -28,16 +28,31 @@ export function AdminDashboard() {
 
   const fetchData = async () => {
     try {
-      const [registrationsRes, statsRes] = await Promise.all([
-        fetch("/api/registrations"),
-        fetch("/api/registrations/stats"),
-      ])
-
+      const registrationsRes = await fetch("/api/simple-registrations")
       const registrationsData = await registrationsRes.json()
-      const statsData = await statsRes.json()
 
-      setRegistrations(registrationsData.registrations)
-      setStats(statsData.stats)
+      setRegistrations(registrationsData.registrations || [])
+      // Create simple stats from registrations
+      setStats({
+        total: registrationsData.count || 0,
+        pending: 0,
+        approved: 0,
+        rejected: 0,
+        today: registrationsData.registrations?.filter((reg: any) => {
+          const today = new Date().toDateString()
+          return new Date(reg.createdAt).toDateString() === today
+        }).length || 0,
+        thisWeek: registrationsData.registrations?.filter((reg: any) => {
+          const weekAgo = new Date()
+          weekAgo.setDate(weekAgo.getDate() - 7)
+          return new Date(reg.createdAt) > weekAgo
+        }).length || 0,
+        thisMonth: registrationsData.registrations?.filter((reg: any) => {
+          const monthAgo = new Date()
+          monthAgo.setMonth(monthAgo.getMonth() - 1)
+          return new Date(reg.createdAt) > monthAgo
+        }).length || 0
+      })
     } catch (error) {
       toast({
         title: "Error",
