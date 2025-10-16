@@ -1,0 +1,30 @@
+-- MongoDB Schema Definition (for reference)
+-- Collection: registrations
+-- This file documents the schema structure
+
+-- Document Structure:
+-- {
+--   _id: ObjectId,
+--   firstName: String (required),
+--   lastName: String (required),
+--   email: String (required, unique),
+--   phone: String (required),
+--   dateOfBirth: Date (required),
+--   gender: String (required, enum: ['male', 'female', 'other']),
+--   address: String (required),
+--   city: String (required),
+--   country: String (required),
+--   program: String (required),
+--   educationLevel: String (required),
+--   institution: String (required),
+--   graduationYear: Number (required),
+--   motivation: String (required),
+--   status: String (default: 'pending', enum: ['pending', 'approved', 'rejected']),
+--   createdAt: Date (default: now),
+--   updatedAt: Date (default: now)
+-- }
+
+-- Indexes:
+-- email: unique
+-- status: 1
+-- createdAt: -1
