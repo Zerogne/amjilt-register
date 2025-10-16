@@ -12,16 +12,30 @@ import { useToast } from "@/hooks/use-toast"
 import { Users, CheckCircle, XCircle, Clock, Search, Eye, Trash2 } from "lucide-react"
 import type { Registration } from "@/lib/models/registration"
 
+// Local type to support simple registrations saved via /api/simple-registrations
+// while remaining compatible with older Registration shape
+type AdminRegistration = Partial<Registration> & {
+  _id?: { toString(): string }
+  id?: string
+  name?: string
+  email?: string
+  mobile?: string
+  className?: string
+  createdAt?: string | Date
+  status?: string
+}
+
 export function AdminDashboard() {
   const { toast } = useToast()
-  const [registrations, setRegistrations] = useState<Registration[]>([])
+  const [registrations, setRegistrations] = useState<AdminRegistration[]>([])
   const [stats, setStats] = useState({ total: 0, pending: 0, approved: 0, rejected: 0, today: 0, thisWeek: 0, thisMonth: 0 })
   const [loading, setLoading] = useState(true)
   const [searchQuery, setSearchQuery] = useState("")
   const [statusFilter, setStatusFilter] = useState<string>("all")
-  const [selectedRegistration, setSelectedRegistration] = useState<Registration | null>(null)
+  const [selectedRegistration, setSelectedRegistration] = useState<AdminRegistration | null>(null)
   const [isDetailOpen, setIsDetailOpen] = useState(false)
-
+  
+ 
   useEffect(() => {
     fetchData()
   }, [])
@@ -116,11 +130,13 @@ export function AdminDashboard() {
 
   const filteredRegistrations = registrations.filter((reg) => {
     const matchesSearch =
-      reg.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      reg.lastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      reg.email.toLowerCase().includes(searchQuery.toLowerCase())
+      (reg.name || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (reg.email || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (reg.mobile || '').includes(searchQuery) ||
+      (reg.className || '').toLowerCase().includes(searchQuery.toLowerCase())
 
-    const matchesStatus = statusFilter === "all" || reg.status === statusFilter
+    // For simple registrations, we don't have status, so always match
+    const matchesStatus = statusFilter === "all" || !reg.status || reg.status === statusFilter
 
     return matchesSearch && matchesStatus
   })
@@ -145,6 +161,7 @@ export function AdminDashboard() {
   }
 
   return (
+    
     <div className="space-y-6">
       {/* Stats Cards */}
       <div className="grid md:grid-cols-4 gap-4">
@@ -226,8 +243,8 @@ export function AdminDashboard() {
                 <TableRow>
                   <TableHead>Name</TableHead>
                   <TableHead>Email</TableHead>
-                  <TableHead>Program</TableHead>
-                  <TableHead>Status</TableHead>
+                  <TableHead>Class</TableHead>
+                  <TableHead>Mobile</TableHead>
                   <TableHead>Date</TableHead>
                   <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
@@ -241,14 +258,14 @@ export function AdminDashboard() {
                   </TableRow>
                 ) : (
                   filteredRegistrations.map((registration) => (
-                    <TableRow key={registration._id?.toString()}>
+                    <TableRow key={registration._id?.toString() || registration.id}>
                       <TableCell className="font-medium">
-                        {registration.firstName} {registration.lastName}
+                        {registration.name}
                       </TableCell>
                       <TableCell>{registration.email}</TableCell>
-                      <TableCell className="capitalize">{registration.program.replace("-", " ")}</TableCell>
-                      <TableCell>{getStatusBadge(registration.status)}</TableCell>
-                      <TableCell>{new Date(registration.createdAt).toLocaleDateString()}</TableCell>
+                      <TableCell>{registration.className}</TableCell>
+                      <TableCell>{registration.mobile}</TableCell>
+                      <TableCell>{(registration.createdAt ? new Date(registration.createdAt) : undefined)?.toLocaleDateString() ?? '-'}</TableCell>
                       <TableCell className="text-right">
                         <div className="flex justify-end gap-2">
                           <Button
@@ -334,90 +351,35 @@ export function AdminDashboard() {
                 <h3 className="font-semibold mb-3">Personal Information</h3>
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   <div>
-                    <p className="text-muted-foreground">First Name</p>
-                    <p className="font-medium">{selectedRegistration.firstName}</p>
-                  </div>
-                  <div>
-                    <p className="text-muted-foreground">Last Name</p>
-                    <p className="font-medium">{selectedRegistration.lastName}</p>
+                    <p className="text-muted-foreground">Name</p>
+                    <p className="font-medium">{selectedRegistration.name}</p>
                   </div>
                   <div>
                     <p className="text-muted-foreground">Email</p>
                     <p className="font-medium">{selectedRegistration.email}</p>
                   </div>
                   <div>
-                    <p className="text-muted-foreground">Phone</p>
-                    <p className="font-medium">{selectedRegistration.phone}</p>
+                    <p className="text-muted-foreground">Mobile</p>
+                    <p className="font-medium">{selectedRegistration.mobile}</p>
                   </div>
                   <div>
-                    <p className="text-muted-foreground">Date of Birth</p>
-                    <p className="font-medium">{new Date(selectedRegistration.dateOfBirth).toLocaleDateString()}</p>
-                  </div>
-                  <div>
-                    <p className="text-muted-foreground">Gender</p>
-                    <p className="font-medium capitalize">{selectedRegistration.gender}</p>
+                    <p className="text-muted-foreground">Class</p>
+                    <p className="font-medium">{selectedRegistration.className}</p>
                   </div>
                 </div>
               </div>
 
-              {/* Address */}
-              <div>
-                <h3 className="font-semibold mb-3">Address</h3>
-                <div className="grid grid-cols-2 gap-4 text-sm">
-                  <div className="col-span-2">
-                    <p className="text-muted-foreground">Street Address</p>
-                    <p className="font-medium">{selectedRegistration.address}</p>
-                  </div>
-                  <div>
-                    <p className="text-muted-foreground">City</p>
-                    <p className="font-medium">{selectedRegistration.city}</p>
-                  </div>
-                  <div>
-                    <p className="text-muted-foreground">Country</p>
-                    <p className="font-medium">{selectedRegistration.country}</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Education */}
-              <div>
-                <h3 className="font-semibold mb-3">Education</h3>
-                <div className="grid grid-cols-2 gap-4 text-sm">
-                  <div>
-                    <p className="text-muted-foreground">Program</p>
-                    <p className="font-medium capitalize">{selectedRegistration.program.replace("-", " ")}</p>
-                  </div>
-                  <div>
-                    <p className="text-muted-foreground">Education Level</p>
-                    <p className="font-medium capitalize">{selectedRegistration.educationLevel.replace("-", " ")}</p>
-                  </div>
-                  <div>
-                    <p className="text-muted-foreground">Institution</p>
-                    <p className="font-medium">{selectedRegistration.institution}</p>
-                  </div>
-                  <div>
-                    <p className="text-muted-foreground">Graduation Year</p>
-                    <p className="font-medium">{selectedRegistration.graduationYear}</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Motivation */}
-              <div>
-                <h3 className="font-semibold mb-3">Statement of Purpose</h3>
-                <p className="text-sm leading-relaxed bg-muted p-4 rounded-lg">{selectedRegistration.motivation}</p>
-              </div>
 
               {/* Metadata */}
               <div className="pt-4 border-t">
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   <div>
                     <p className="text-muted-foreground">Status</p>
-                    <div className="mt-1">{getStatusBadge(selectedRegistration.status)}</div>
+                    <div className="mt-1">{getStatusBadge(selectedRegistration.status ?? 'pending')}</div>
                   </div>
                   <div>
                     <p className="text-muted-foreground">Submitted</p>
-                    <p className="font-medium">{new Date(selectedRegistration.createdAt).toLocaleString()}</p>
+                    <p className="font-medium">{(selectedRegistration.createdAt ? new Date(selectedRegistration.createdAt) : undefined)?.toLocaleString() ?? '-'}</p>
                   </div>
                 </div>
               </div>
